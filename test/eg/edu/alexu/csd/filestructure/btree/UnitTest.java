@@ -388,6 +388,18 @@ public class UnitTest {
 				Assert.fail();
 
 			int index = 0;
+			for(Integer i : set) {
+				Integer x = i;
+				Integer y = keys.get(index);
+				if(x != y) {
+					System.out.println(x);
+					System.out.println(y);
+					System.out.println(x.compareTo(y) == 0);
+					System.out.println(index);
+					break;}
+				++index;
+			}
+
 			for (Integer i : set) {
 				Assert.assertEquals(i, keys.get(index));
 				Assert.assertEquals("Soso" + i, vals.get(index));

@@ -36,4 +36,8 @@ public interface IBTreeNodeExtended<K extends Comparable<K>, V> extends IBTreeNo
     public void deleteChild(int i);
 
     public void deleteChild(Object child);
+
+    public void setParent(IBTreeNodeExtended node);
+
+    public IBTreeNodeExtended getParent();
 }

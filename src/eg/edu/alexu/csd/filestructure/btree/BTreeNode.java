@@ -7,7 +7,8 @@ public class BTreeNode<K extends Comparable<K>, V> implements IBTreeNodeExtended
     private List<K> keys = new ArrayList<>();
     private List<V> values = new ArrayList<>();
     private List<IBTreeNodeExtended<K, V>> children = new ArrayList<>();
-    private int numOfKeys = 0;
+    private IBTreeNodeExtended<K, V> parent = null;
+    private  int numOfKeys = 0;
     private boolean leaf = true;
 
     public BTreeNode() {
@@ -160,5 +161,15 @@ public class BTreeNode<K extends Comparable<K>, V> implements IBTreeNodeExtended
     @Override
     public void deleteChild(Object child) {
         this.children.remove(child);
+    }
+
+    @Override
+    public void setParent(IBTreeNodeExtended parent) {
+        this.parent = parent;
+    }
+
+    @Override
+    public IBTreeNodeExtended getParent() {
+        return this.parent;
     }
 }
