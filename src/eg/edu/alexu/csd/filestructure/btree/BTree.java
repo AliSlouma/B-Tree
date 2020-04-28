@@ -172,7 +172,115 @@ public class BTree<K extends Comparable<K>, V> implements IBTree, IBTreeDisplay 
 
     @Override
     public boolean delete(Comparable key) {
-        return false;
+        if(key == null || this.root == null)
+            throw new RuntimeErrorException(null);
+        if(this.root.isLeaf()) {
+            if (this.root.getNumOfKeys() == 0)
+                return false;
+
+        }
+        if(this.B_Tree_Search2(this.root, key) == null)
+            return false;
+        boolean operationIsDone = this.B_Tree_Delete(this.root, key);
+        if(this.root.getChildren().size() == 1) {
+            this.root.getChild(1).setParent(null);
+            this.root = this.root.getChild(1);
+        }
+        return operationIsDone;
+    }
+
+    private boolean B_Tree_Delete(IBTreeNodeExtended<K,V> root, Comparable key) {
+        int i;
+
+        for(i = 1; i <= root.getNumOfKeys() && key.compareTo(root.getKey(i)) > 0; ++i);
+        if(i <= root.getNumOfKeys() && key.compareTo(root.getKey(i)) == 0) {
+            if(root.isLeaf()) {
+                root.deleteKey(i);
+                root.deleteValue(i);
+                root.setNumOfKeys(root.getNumOfKeys() - 1);
+                return true;
+            }
+            else {
+                if(root.getChild(i).getNumOfKeys() >= this.minimumDegree) {
+                    Object[] pre = this.predecessor(root, i);
+                    IBTreeNodeExtended auxiliary = (IBTreeNodeExtended) pre[0];
+                    int index = (int) pre[1];
+                    root.setKey(i, (K) auxiliary.getKey(index));
+                    root.setValue(i, (V) auxiliary.getValue(index));
+                    return this.B_Tree_Delete(root.getChild(i), root.getKey(i));
+                } else if(root.getChild(i+1).getNumOfKeys() >= this.minimumDegree) {
+                    Object[] pre = this.successor(root, i);
+                    IBTreeNodeExtended auxiliary = (IBTreeNodeExtended) pre[0];
+                    int index = (int) pre[1];
+                    root.setKey(i, (K) auxiliary.getKey(index));
+                    root.setValue(i, (V) auxiliary.getValue(index));
+                    return this.B_Tree_Delete(root.getChild(i+1), root.getKey(i));
+                } else {
+                    this.merge(root, root.getChild(i), i);
+                    this.B_Tree_Delete(root.getChild(i), key);
+                }
+            }
+        } else if (!root.isLeaf()){
+            IBTreeNodeExtended wantedChild = root.getChild(i);
+            if(wantedChild.getNumOfKeys() > this.minKeys)
+                return this.B_Tree_Delete(wantedChild, key);
+            else {
+                if (root.getChild(i - 1) != null && root.getChild(i - 1).getNumOfKeys() > this.minKeys) {
+                    IBTreeNodeExtended leftSibling = root.getChild(i - 1);
+                    wantedChild.addKey(1, root.getKey(i - 1));
+                    root.setKey(i - 1, (K) leftSibling.getKey(leftSibling.getNumOfKeys()));
+                    leftSibling.deleteKey(leftSibling.getNumOfKeys());
+                    wantedChild.addValue(1, root.getValue(i - 1));
+                    root.setValue(i - 1, (V) leftSibling.getValue(leftSibling.getNumOfKeys()));
+                    leftSibling.deleteValue(leftSibling.getNumOfKeys());
+                    if (!wantedChild.isLeaf()) {
+                        leftSibling.getChild(leftSibling.getNumOfKeys() + 1).setParent(wantedChild);
+                        wantedChild.addChild(1, leftSibling.getChild(leftSibling.getNumOfKeys() + 1));
+                        leftSibling.deleteChild(leftSibling.getNumOfKeys() + 1);
+                    }
+                    wantedChild.setNumOfKeys(wantedChild.getNumOfKeys() + 1);
+                    leftSibling.setNumOfKeys(leftSibling.getNumOfKeys() - 1);
+                } else if (i <= root.getNumOfKeys() && root.getChild(i + 1).getNumOfKeys() > this.minKeys) {
+                    IBTreeNodeExtended rightSibling = root.getChild(i + 1);
+                    wantedChild.addKey(root.getKey(i));
+                    root.setKey(i, (K) rightSibling.getKey(1));
+                    rightSibling.deleteKey(1);
+                    wantedChild.addValue(root.getValue(i));
+                    root.setValue(i, (V) rightSibling.getValue(1));
+                    rightSibling.deleteValue(1);
+                    if (!rightSibling.isLeaf()) {
+                        rightSibling.getChild(1).setParent(wantedChild);
+                        wantedChild.addChild(rightSibling.getChild(1));
+                        rightSibling.deleteChild(1);
+                    }
+                    wantedChild.setNumOfKeys(wantedChild.getNumOfKeys() + 1);
+                    rightSibling.setNumOfKeys(rightSibling.getNumOfKeys() - 1);
+                } else {
+                    if(i > root.getNumOfKeys())
+                        --i;
+                    this.merge(root, root.getChild(i), i);
+                }
+                return this.B_Tree_Delete(root.getChild(i), key);
+            }
+        } else
+            return false;
+        return true;
+    }
+
+    private void merge(IBTreeNodeExtended root, IBTreeNodeExtended augmentedNode, int i) {
+        augmentedNode.addKey(root.getKey(i));
+        augmentedNode.setKeys(root.getChild(i+1).getKeys());
+        augmentedNode.addValue(root.getValue(i));
+        augmentedNode.setValues(root.getChild(i+1).getValues());
+        augmentedNode.setChildren(root.getChild(i+1).getChildren());
+        for(Object x : root.getChild(i+1).getChildren())
+            ((IBTreeNodeExtended) x).setParent(augmentedNode);
+        augmentedNode.setNumOfKeys(this.maxKeys);
+        root.deleteKey(i);
+        root.deleteValue(i);
+        root.getChild(i+1).setParent(null);
+        root.deleteChild(i+1);
+        root.setNumOfKeys(root.getNumOfKeys() - 1);
     }
 
     /**
