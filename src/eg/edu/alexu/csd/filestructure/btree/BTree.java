@@ -179,8 +179,7 @@ public class BTree<K extends Comparable<K>, V> implements IBTree, IBTreeDisplay 
                 return false;
 
         }
-        if(this.B_Tree_Search2(this.root, key) == null)
-            return false;
+        
         boolean operationIsDone = this.B_Tree_Delete(this.root, key);
         if(this.root.getChildren().size() == 1) {
             this.root.getChild(1).setParent(null);
