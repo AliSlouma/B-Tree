@@ -4,9 +4,9 @@ import javax.management.RuntimeErrorException;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class BTree<K extends Comparable<K>, V> implements IBTree, IBTreeDisplay {
+public class BTree<K extends Comparable<K>, V> implements IBTree {
     private int minimumDegree = 2;
-    private IBTreeNodeExtended<K, V> root;
+    private BTreeNode<K, V> root;
     private int maxKeys = 2 * this.minimumDegree - 1;
     private int minKeys = this.minimumDegree - 1;
 
@@ -44,15 +44,13 @@ public class BTree<K extends Comparable<K>, V> implements IBTree, IBTreeDisplay 
     public void insert(Comparable key, Object value) {
         if(key == null || value == null) throw new RuntimeErrorException(null);
         if(root != null) {
-            IBTreeNodeExtended node = this.B_Tree_Search2(this.root, key);
-            if(node != null) {
-                node.setValue(node.getKeys().indexOf(key), value);
+            BTreeNode node = this.B_Tree_Search2(this.root, key);
+            if(node != null)
                 return;
-            }
         }
         if(root == null) this.B_Tree_Create();
         if(this.root.getNumOfKeys() == this.maxKeys) {
-            IBTreeNodeExtended s = new BTreeNode();
+            BTreeNode s = new BTreeNode();
             s.setLeaf(false);
             s.addChild(this.root);
             this.root.setParent(s);            // exclusively added watch out
@@ -72,7 +70,7 @@ public class BTree<K extends Comparable<K>, V> implements IBTree, IBTreeDisplay 
      * @param key
      * @param value
      */
-    private void B_Tree_Insert_NonFull(IBTreeNodeExtended root, Comparable key, Object value) {
+    private void B_Tree_Insert_NonFull(BTreeNode root, Comparable key, Object value) {
         int i = root.getNumOfKeys();
         if(root.isLeaf()) {
             while(i >= 1 && key.compareTo(root.getKey(i)) < 0)
@@ -90,7 +88,7 @@ public class BTree<K extends Comparable<K>, V> implements IBTree, IBTreeDisplay 
                 if(key.compareTo(root.getKey(i)) > 0)
                     ++i;
             }
-            this.B_Tree_Insert_NonFull(root.getChild(i), key, value);
+            this.B_Tree_Insert_NonFull((BTreeNode) root.getChild(i), key, value);
         }
     }
 
@@ -99,9 +97,9 @@ public class BTree<K extends Comparable<K>, V> implements IBTree, IBTreeDisplay 
      * @param root
      * @param i
      */
-    private void B_Tree_Split(IBTreeNodeExtended root, int i) {
-        IBTreeNodeExtended newSibling = new BTreeNode();
-        IBTreeNodeExtended wantedChild = root.getChild(i);
+    private void B_Tree_Split(BTreeNode root, int i) {
+        BTreeNode newSibling = new BTreeNode();
+        BTreeNode wantedChild = (BTreeNode) root.getChild(i);
         newSibling.setNumOfKeys(this.minKeys);
         newSibling.setLeaf(wantedChild.isLeaf());
         for (int j = this.minKeys; j >= 1; --j) {
@@ -113,7 +111,7 @@ public class BTree<K extends Comparable<K>, V> implements IBTree, IBTreeDisplay 
         if(!wantedChild.isLeaf()) {
             for(int j = this.minimumDegree; j >= 1; --j) {
                 newSibling.addChild(1, wantedChild.getChild(j + this.minimumDegree));
-                newSibling.getChild(1).setParent(newSibling);    // exclusively added
+                ((BTreeNode) newSibling.getChild(1)).setParent(newSibling);    // exclusively added
                 wantedChild.deleteChild(j + this.minimumDegree);
             }
         }
@@ -138,7 +136,7 @@ public class BTree<K extends Comparable<K>, V> implements IBTree, IBTreeDisplay 
         return this.B_Tree_Search(this.root, key);
     }
 
-    private Object B_Tree_Search(IBTreeNodeExtended<K, V> root, Comparable key) {
+    private Object B_Tree_Search(BTreeNode<K, V> root, Comparable key) {
         if(root == null || key == null) throw new RuntimeErrorException(null);
         int i = 1;
         while(i <= root.getNumOfKeys() && key.compareTo(root.getKey(i)) > 0)
@@ -148,7 +146,7 @@ public class BTree<K extends Comparable<K>, V> implements IBTree, IBTreeDisplay 
         else if(root.isLeaf())
             return null;
         else
-            return this.B_Tree_Search(root.getChild(i), key);
+            return this.B_Tree_Search((BTreeNode<K, V>) root.getChild(i), key);
     }
 
     /**
@@ -157,7 +155,7 @@ public class BTree<K extends Comparable<K>, V> implements IBTree, IBTreeDisplay 
      * @param key search for this key
      * @return node contains the searched key
      */
-    public IBTreeNodeExtended B_Tree_Search2(IBTreeNodeExtended root, Comparable key) {
+    public BTreeNode B_Tree_Search2(BTreeNode root, Comparable key) {
         if(root == null || key == null) throw new RuntimeErrorException(null);
         int i = 1;
         while(i <= root.getNumOfKeys() && key.compareTo(root.getKey(i)) > 0)
@@ -167,7 +165,7 @@ public class BTree<K extends Comparable<K>, V> implements IBTree, IBTreeDisplay 
         else if(root.isLeaf())
             return null;
         else
-            return this.B_Tree_Search2(root.getChild(i), key);
+            return this.B_Tree_Search2((BTreeNode) root.getChild(i), key);
     }
 
     @Override
@@ -181,13 +179,13 @@ public class BTree<K extends Comparable<K>, V> implements IBTree, IBTreeDisplay 
 
         boolean operationIsDone = this.B_Tree_Delete(this.root, key);
         if(this.root.getChildren().size() == 1) {
-            this.root.getChild(1).setParent(null);
-            this.root = this.root.getChild(1);
+            ((BTreeNode)this.root.getChild(1)).setParent(null);
+            this.root = (BTreeNode) this.root.getChild(1);
         }
         return operationIsDone;
     }
 
-    private boolean B_Tree_Delete(IBTreeNodeExtended<K,V> root, Comparable key) {
+    private boolean B_Tree_Delete(BTreeNode<K,V> root, Comparable key) {
         int i;
 
         for(i = 1; i <= root.getNumOfKeys() && key.compareTo(root.getKey(i)) > 0; ++i);
@@ -201,30 +199,30 @@ public class BTree<K extends Comparable<K>, V> implements IBTree, IBTreeDisplay 
             else {
                 if(root.getChild(i).getNumOfKeys() >= this.minimumDegree) {
                     Object[] pre = this.predecessor(root, i);
-                    IBTreeNodeExtended auxiliary = (IBTreeNodeExtended) pre[0];
+                    BTreeNode auxiliary = (BTreeNode) pre[0];
                     int index = (int) pre[1];
                     root.setKey(i, (K) auxiliary.getKey(index));
                     root.setValue(i, (V) auxiliary.getValue(index));
-                    return this.B_Tree_Delete(root.getChild(i), root.getKey(i));
+                    return this.B_Tree_Delete((BTreeNode<K, V>) root.getChild(i), root.getKey(i));
                 } else if(root.getChild(i+1).getNumOfKeys() >= this.minimumDegree) {
                     Object[] pre = this.successor(root, i);
-                    IBTreeNodeExtended auxiliary = (IBTreeNodeExtended) pre[0];
+                    BTreeNode auxiliary = (BTreeNode) pre[0];
                     int index = (int) pre[1];
                     root.setKey(i, (K) auxiliary.getKey(index));
                     root.setValue(i, (V) auxiliary.getValue(index));
-                    return this.B_Tree_Delete(root.getChild(i+1), root.getKey(i));
+                    return this.B_Tree_Delete((BTreeNode<K, V>) root.getChild(i+1), root.getKey(i));
                 } else {
-                    this.merge(root, root.getChild(i), i);
-                    this.B_Tree_Delete(root.getChild(i), key);
+                    this.merge(root, (BTreeNode) root.getChild(i), i);
+                    this.B_Tree_Delete((BTreeNode<K, V>) root.getChild(i), key);
                 }
             }
         } else if (!root.isLeaf()){
-            IBTreeNodeExtended wantedChild = root.getChild(i);
+            BTreeNode wantedChild = (BTreeNode) root.getChild(i);
             if(wantedChild.getNumOfKeys() > this.minKeys)
                 return this.B_Tree_Delete(wantedChild, key);
             else {
                 if (root.getChild(i - 1) != null && root.getChild(i - 1).getNumOfKeys() > this.minKeys) {
-                    IBTreeNodeExtended leftSibling = root.getChild(i - 1);
+                    BTreeNode leftSibling = (BTreeNode) root.getChild(i - 1);
                     wantedChild.addKey(1, root.getKey(i - 1));
                     root.setKey(i - 1, (K) leftSibling.getKey(leftSibling.getNumOfKeys()));
                     leftSibling.deleteKey(leftSibling.getNumOfKeys());
@@ -232,14 +230,14 @@ public class BTree<K extends Comparable<K>, V> implements IBTree, IBTreeDisplay 
                     root.setValue(i - 1, (V) leftSibling.getValue(leftSibling.getNumOfKeys()));
                     leftSibling.deleteValue(leftSibling.getNumOfKeys());
                     if (!wantedChild.isLeaf()) {
-                        leftSibling.getChild(leftSibling.getNumOfKeys() + 1).setParent(wantedChild);
+                        ((BTreeNode)leftSibling.getChild(leftSibling.getNumOfKeys() + 1)).setParent(wantedChild);
                         wantedChild.addChild(1, leftSibling.getChild(leftSibling.getNumOfKeys() + 1));
                         leftSibling.deleteChild(leftSibling.getNumOfKeys() + 1);
                     }
                     wantedChild.setNumOfKeys(wantedChild.getNumOfKeys() + 1);
                     leftSibling.setNumOfKeys(leftSibling.getNumOfKeys() - 1);
                 } else if (i <= root.getNumOfKeys() && root.getChild(i + 1).getNumOfKeys() > this.minKeys) {
-                    IBTreeNodeExtended rightSibling = root.getChild(i + 1);
+                    BTreeNode rightSibling = (BTreeNode) root.getChild(i + 1);
                     wantedChild.addKey(root.getKey(i));
                     root.setKey(i, (K) rightSibling.getKey(1));
                     rightSibling.deleteKey(1);
@@ -247,7 +245,7 @@ public class BTree<K extends Comparable<K>, V> implements IBTree, IBTreeDisplay 
                     root.setValue(i, (V) rightSibling.getValue(1));
                     rightSibling.deleteValue(1);
                     if (!rightSibling.isLeaf()) {
-                        rightSibling.getChild(1).setParent(wantedChild);
+                        ((BTreeNode) rightSibling.getChild(1)).setParent(wantedChild);
                         wantedChild.addChild(rightSibling.getChild(1));
                         rightSibling.deleteChild(1);
                     }
@@ -256,27 +254,27 @@ public class BTree<K extends Comparable<K>, V> implements IBTree, IBTreeDisplay 
                 } else {
                     if(i > root.getNumOfKeys())
                         --i;
-                    this.merge(root, root.getChild(i), i);
+                    this.merge(root, (BTreeNode) root.getChild(i), i);
                 }
-                return this.B_Tree_Delete(root.getChild(i), key);
+                return this.B_Tree_Delete((BTreeNode<K, V>) root.getChild(i), key);
             }
         } else
             return false;
         return true;
     }
 
-    private void merge(IBTreeNodeExtended root, IBTreeNodeExtended augmentedNode, int i) {
+    private void merge(BTreeNode root, BTreeNode augmentedNode, int i) {
         augmentedNode.addKey(root.getKey(i));
         augmentedNode.setKeys(root.getChild(i+1).getKeys());
         augmentedNode.addValue(root.getValue(i));
         augmentedNode.setValues(root.getChild(i+1).getValues());
         augmentedNode.setChildren(root.getChild(i+1).getChildren());
         for(Object x : root.getChild(i+1).getChildren())
-            ((IBTreeNodeExtended) x).setParent(augmentedNode);
+            ((BTreeNode) x).setParent(augmentedNode);
         augmentedNode.setNumOfKeys(this.maxKeys);
         root.deleteKey(i);
         root.deleteValue(i);
-        root.getChild(i+1).setParent(null);
+        ((BTreeNode) root.getChild(i+1)).setParent(null);
         root.deleteChild(i+1);
         root.setNumOfKeys(root.getNumOfKeys() - 1);
     }
@@ -288,23 +286,23 @@ public class BTree<K extends Comparable<K>, V> implements IBTree, IBTreeDisplay 
      * @return Object array contains " array[0] = node that has the successor ans array[1] = index of the key "
      * such that array[0].getKey(array[i]) = the successor
      */
-    public Object[] successor(IBTreeNodeExtended node, int i) {
+    public Object[] successor(BTreeNode node, int i) {
         K key = (K) node.getKey(i);
         Object[] wantedNode = new Object[2];
         if(!node.isLeaf()) {
-            wantedNode[0] = this.minimumNode(node.getChild(i + 1));
+            wantedNode[0] = this.minimumNode((BTreeNode) node.getChild(i + 1));
             wantedNode[1] = 1;
         } else if(node.getNumOfKeys() > i) {
             wantedNode[0] = node;
             wantedNode[1] = i + 1;
         }
         else {
-            IBTreeNodeExtended auxiliary = node.getParent();
+            BTreeNode auxiliary = (BTreeNode) node.getParent();
             while(auxiliary != null) {
                 int index = auxiliary.getChildren().indexOf(node) + 1;
                 if(index > auxiliary.getNumOfKeys()) {
                     node = auxiliary;
-                    auxiliary = auxiliary.getParent();
+                    auxiliary = (BTreeNode) auxiliary.getParent();
                 } else if(auxiliary.getKey(index).compareTo(key) > 0) {
                     wantedNode[0] = auxiliary;
                     wantedNode[1] = index;
@@ -322,11 +320,11 @@ public class BTree<K extends Comparable<K>, V> implements IBTree, IBTreeDisplay 
      * @return Object array contains " array[0] = node that has the predecessor ans array[1] = index of the key "
      * such that array[0].getKey(array[i]) = the predecessor
      */
-    public Object[] predecessor(IBTreeNodeExtended node, int i) {
+    public Object[] predecessor(BTreeNode node, int i) {
         K key = (K) node.getKey(i);
         Object[] wantedNode = new Object[2];
         if(!node.isLeaf()) {
-            IBTreeNodeExtended dummy = this.maximumNode(node.getChild(i));
+            BTreeNode dummy = this.maximumNode((BTreeNode) node.getChild(i));
             wantedNode[0] = dummy;
             wantedNode[1] = dummy.getNumOfKeys();
         } else if(i > 1) {
@@ -334,12 +332,12 @@ public class BTree<K extends Comparable<K>, V> implements IBTree, IBTreeDisplay 
             wantedNode[1] = i - 1;
         }
         else {
-            IBTreeNodeExtended auxiliary = node.getParent();
+            BTreeNode auxiliary = (BTreeNode) node.getParent();
             while(auxiliary != null) {
                 int index = auxiliary.getChildren().indexOf(node) + 1;
                 if(index == 1) {
                     node = auxiliary;
-                    auxiliary = auxiliary.getParent();
+                    auxiliary = (BTreeNode) auxiliary.getParent();
                 } else if(auxiliary.getKey(index - 1).compareTo(key) < 0) {
                     wantedNode[0] = auxiliary;
                     wantedNode[1] = index - 1;
@@ -356,9 +354,9 @@ public class BTree<K extends Comparable<K>, V> implements IBTree, IBTreeDisplay 
      * @return node has min element
      * you can find the minimum key by using " returnedNode.getKey(1) "
      */
-    private IBTreeNodeExtended minimumNode(IBTreeNodeExtended node) {
+    private BTreeNode minimumNode(BTreeNode node) {
         while(node != null && !node.isLeaf()) {
-            node = node.getChild(1);
+            node = (BTreeNode) node.getChild(1);
         }
         return node;
     }
@@ -369,9 +367,9 @@ public class BTree<K extends Comparable<K>, V> implements IBTree, IBTreeDisplay 
      * @return node has max element
      * you can find the maximum key by using " returnedNode.getKey(returnedNode.getNumOfKeys()) "
      */
-    private IBTreeNodeExtended maximumNode(IBTreeNodeExtended node) {
+    private BTreeNode maximumNode(BTreeNode node) {
         while(node != null && !node.isLeaf()) {
-            node = node.getChild(node.getNumOfKeys() + 1);
+            node = (BTreeNode) node.getChild(node.getNumOfKeys() + 1);
         }
         return node;
     }
@@ -381,12 +379,11 @@ public class BTree<K extends Comparable<K>, V> implements IBTree, IBTreeDisplay 
      * Use it just for debugging
      * @param root root of the wanted subtree to be be displayed
      */
-    @Override
-    public void B_Tree_Display(IBTreeNodeExtended root) {
-        Queue<IBTreeNodeExtended> waitedNodes = new LinkedList<>();
+    public void B_Tree_Display(BTreeNode root) {
+        Queue<BTreeNode> waitedNodes = new LinkedList<>();
         waitedNodes.add(root);
         while(!waitedNodes.isEmpty()) {
-            IBTreeNodeExtended current = waitedNodes.remove();
+            BTreeNode current = waitedNodes.remove();
             if(!current.isLeaf())
                 waitedNodes.addAll(current.getChildren().subList(1, current.getNumOfKeys() + 2));
             if(current != null)
