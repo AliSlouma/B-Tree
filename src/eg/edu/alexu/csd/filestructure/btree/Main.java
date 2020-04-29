@@ -1,21 +1,37 @@
 package eg.edu.alexu.csd.filestructure.btree;
 
+import org.junit.platform.commons.util.StringUtils;
+
+import java.io.File;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Main {
 
     public static void main(String[] args) {
-        BTree<Integer, String> ibTree = new BTree<>(3);
+      SearchEngine s =  new SearchEngine(100);
+      s.indexDirectory("res");
 
-        Integer[] arr = {1, 3, 7, 10, 11, 13, 14, 15, 18, 16, 19, 24, 25, 26, 21, 4, 5, 20, 22, 2, 17, 12, 6};
-        Integer[] arr2 = {3, 19, 15, 6, 20, 26, 14, 21, 13, 25, 1, 7, 5, 16, 4, 11, 18, 22, 10, 2, 12, 24, 17};
+     // s.indexWebPage("res\\wiki_00");
+      //s.searchByWordWithRanking("Konica");
 
-        for (Integer x : arr) {
-            ibTree.insert(x, "Soso" + x);
+
+      /*  String in = "i have a male cat. the color of male cat is Black";
+        int i = 0;
+        Pattern p = Pattern.compile("\\s+i have");
+        Matcher m = p.matcher( in );
+        while (m.find()) {
+            i++;
         }
+        System.out.println(i); // Prints 2*/
+        File folder = new File("res");
+        File[] listOfFiles = folder.listFiles();
 
-        for(Integer x : arr2) {
-            System.out.println(ibTree.delete(x));
+        for (File file : listOfFiles) {
+            if (file.isFile()) {
+                System.out.println(file.getName());
+            }
         }
     }
 }
