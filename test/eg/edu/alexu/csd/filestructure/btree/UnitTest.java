@@ -29,700 +29,695 @@ import org.junit.Test;
 public class UnitTest {
 	private final boolean debug = false;
 
-	/** 
+	/**
 	 * test get a null root.
 	 */
 	@Test
 	@SuppressWarnings("unchecked")
-//	public void testRootNull() {
-//
-//		IBTree<String, String> btree = (IBTree<String, String>) TestRunner.getImplementationInstanceForInterface(IBTree.class, new Object[]{3});
-//		IBTreeNode<String, String> root = null;
-//
-//		try {
-//			root = btree.getRoot();
-//			if (debug)
-//				System.out.println("TestRootNull: (case null)");
-//			if (root != null)
-//				Assert.fail();
-//		} catch (RuntimeErrorException ex) {
-//			if (debug)
-//				System.out.println("TestRootNull: (case runtime exception)");
-//		} catch (Throwable e) {
-//			TestRunner.fail("Fail to getRoot of tree", e);
-//		}
-//	}
-//
-//	/**
-//	 * Test get the root of the tree.
-//	 */
-//	@SuppressWarnings("unchecked")
-//	@Test
-//	public void testGetRoot() {
-//
-//		IBTree<String, String> btree = (IBTree<String, String>) TestRunner.getImplementationInstanceForInterface(IBTree.class, new Object[]{3});
-//		IBTreeNode<String, String> root = null;
-//
-//		try {
-//			btree.insert("Soso", "Toto");
-//			root = btree.getRoot();
-//			Assert.assertEquals(1, root.getNumOfKeys());
-//			Assert.assertEquals("Soso", root.getKeys().get(0));
-//			Assert.assertEquals("Toto", root.getValues().get(0));
-//		}catch (Throwable e) {
-//			TestRunner.fail("Fail to getRoot of tree", e);
-//		}
-//	}
-//
-//	/**
-//	 * Test get the root of the tree full case.
-//	 */
-//	@SuppressWarnings("unchecked")
-//	@Test
-//	public void testGetRootFull() {
-//
-//		IBTree<String, String> btree = (IBTree<String, String>) TestRunner.getImplementationInstanceForInterface(IBTree.class, new Object[]{3});
-//		IBTreeNode<String, String> root = null;
-//
-//		try {
-//			btree.insert("Soso0", "Toto0");
-//			btree.insert("Soso2", "Toto2");
-//			btree.insert("Soso4", "Toto4");
-//			btree.insert("Soso3", "Toto3");
-//			btree.insert("Soso1", "Toto1");
-//			root = btree.getRoot();
-//			Assert.assertEquals(5, root.getNumOfKeys());
-//			for (int i = 0; i < root.getNumOfKeys(); i++) {
-//				Assert.assertEquals("Soso" + i, root.getKeys().get(i));
-//				Assert.assertEquals("Toto" + i, root.getValues().get(i));
-//			}
-//			Assert.assertTrue(root.isLeaf());
-//			if (root.getChildren() != null)
-// 				Assert.assertEquals(0, root.getChildren().size());
-//		}catch (Throwable e) {
-//			TestRunner.fail("Fail to getRoot of tree", e);
-//		}
-//	}
-//
-//	/**
-//	 * Test get the root of the tree split case.
-//	 */
-//	@SuppressWarnings("unchecked")
-//	@Test
-//	public void testGetRootSplitCase() {
-//
-//		IBTree<String, String> btree = (IBTree<String, String>) TestRunner.getImplementationInstanceForInterface(IBTree.class, new Object[]{3});
-//		IBTreeNode<String, String> root = null;
-//
-//		try {
-//			btree.insert("Soso0", "Toto0");
-//			btree.insert("Soso2", "Toto2");
-//			btree.insert("Soso4", "Toto4");
-//			btree.insert("Soso5", "Toto5");
-//			btree.insert("Soso3", "Toto3");
-//			btree.insert("Soso1", "Toto1");
-//			root = btree.getRoot();
-//			Assert.assertEquals(1, root.getNumOfKeys());
-//			Assert.assertEquals("Soso3", root.getKeys().get(0));
-//			Assert.assertEquals("Toto3", root.getValues().get(0));
-//
-//			IBTreeNode<String, String> left = root.getChildren().get(0);
-//			IBTreeNode<String, String> right = root.getChildren().get(1);
-//
-//			Assert.assertEquals(3, left.getNumOfKeys());
-//			Assert.assertEquals(2, right.getNumOfKeys());
-//
-//			for (int i = 0; i < left.getNumOfKeys(); i++) {
-//				Assert.assertEquals("Soso" + i, left.getKeys().get(i));
-//				Assert.assertEquals("Toto" + i, left.getValues().get(i));
-//			}
-//
-//			for (int i = 0; i < right.getNumOfKeys(); i++) {
-//				Assert.assertEquals("Soso" + (i + 4), right.getKeys().get(i));
-//				Assert.assertEquals("Toto" + (i + 4), right.getValues().get(i));
-//			}
-//
-//			Assert.assertFalse(root.isLeaf());
-//			Assert.assertTrue(left.isLeaf());
-//			Assert.assertTrue(right.isLeaf());
-//		}catch (Throwable e) {
-//			TestRunner.fail("Fail to getRoot of tree", e);
-//		}
-//	}
-//
-//	/**
-//	 * Test get the minimum degree of the tree invalid case.
-//	 */
-//	@Test
-//	public void testGetMinimumDegreeInvalid() {
-//
-//		try {
-//			TestRunner.getImplementationInstanceForInterface(IBTree.class, new Object[]{0});
-//			Assert.fail();
-//		} catch(RuntimeErrorException ex) {
-//			try {
-//				TestRunner.getImplementationInstanceForInterface(IBTree.class, new Object[]{1});
-//				Assert.fail();
-//			} catch(RuntimeErrorException ex1) {
-//
-//			}
-//		}
-//		catch (Throwable e) {
-//			TestRunner.fail("Fail to getMinimumDegree", e);
-//		}
-//	}
-//
-//	/**
-//	 * Test get the minimum degree of the tree.
-//	 */
-//	@SuppressWarnings("unchecked")
-//	@Test
-//	public void testGetMinimumDegree() {
-//
-//		try {
-//			for (int i = 2; i < 10; i++) {
-//				IBTree<String, String> btree = (IBTree<String, String>) TestRunner.getImplementationInstanceForInterface(IBTree.class, new Object[]{i});
-//				Assert.assertEquals(i, btree.getMinimumDegree());
-//			}
-//		}
-//		catch (Throwable e) {
-//			TestRunner.fail("Fail to getMinimumDegree", e);
-//		}
-//	}
-//
-//
-//	/**
-//	 * Test insertion with invalid parameter.
-//	 */
-//	@SuppressWarnings("unchecked")
-//	@Test
-//	public void testInsertionInvalid() {
-//
-//		IBTree<String, String> btree = (IBTree<String, String>) TestRunner.getImplementationInstanceForInterface(IBTree.class, new Object[]{3});
-//
-//		try {
-//			btree.insert(null, "Soso");
-//			Assert.fail();
-//		} catch (RuntimeErrorException ex) {
-//			try {
-//				btree.insert("Koko", null);
-//				Assert.fail();
-//			} catch (RuntimeErrorException ex1) {
-//			}
-//		} catch (Throwable e) {
-//			TestRunner.fail("Fail to insert int tree", e);
-//		}
-//	}
-//
-//	/**
-//	 * Test insertion simple case.
-//	 */
-//	@SuppressWarnings("unchecked")
-//	@Test
-//	public void testInsertionSimple() {
-//
-//		IBTree<Integer, String> btree = (IBTree<Integer, String>) TestRunner.getImplementationInstanceForInterface(IBTree.class, new Object[]{5});
-//
-//		try {
-//			Random r = new Random();
-//			List<Integer> rndNum = new ArrayList<>();
-//			for (int i = 0; i < 9; i++) {
-//				int rnd = r.nextInt(Integer.MAX_VALUE);
-//				btree.insert(rnd, "Toto" + rnd);
-//				rndNum.add(rnd);
-//			}
-//			IBTreeNode<Integer, String> root = btree.getRoot();
-//			Assert.assertTrue(root.isLeaf());
-//			Assert.assertEquals(9, root.getNumOfKeys());
-//			Collections.sort(rndNum);
-//
-//			for (int i = 0; i < root.getNumOfKeys(); i++) {
-//				Assert.assertEquals(rndNum.get(i), root.getKeys().get(i));
-//				Assert.assertEquals("Toto" + rndNum.get(i), root.getValues().get(i));
-//			}
-//
-//			if(!verifyBTree(root, 0, getHeight(root), 5, root))
-//				Assert.fail();
-//
-//		} catch (Throwable e) {
-//			TestRunner.fail("Fail to insert in tree", e);
-//		}
-//	}
-//
-//	/**
-//	 * Test insertion duplicate case.
-//	 */
-//	@SuppressWarnings("unchecked")
-//	@Test
-//	public void testInsertionDuplicate() {
-//
-//		IBTree<Integer, String> btree = (IBTree<Integer, String>) TestRunner.getImplementationInstanceForInterface(IBTree.class, new Object[]{5});
-//
-//		try {
-//			btree.insert(3, "Soso2");
-//			for (int i = 0; i < 3; i++) {
-//				btree.insert(3, "Toto" + 2);
-//			}
-//			IBTreeNode<Integer, String> root = btree.getRoot();
-//			Assert.assertTrue(root.isLeaf());
-//			Assert.assertEquals(1, root.getNumOfKeys());
-//
-//			Assert.assertEquals(3, root.getKeys().get(0).intValue());
-//			Assert.assertEquals("Soso2", root.getValues().get(0));
-//
-//			if(!verifyBTree(root, 0, getHeight(root), 5, root))
-//				Assert.fail();
-//
-//		} catch (Throwable e) {
-//			TestRunner.fail("Fail to insert in tree", e);
-//		}
-//	}
-//
-//	/**
-//	 * Test insertion complex case 1.
-//	 */
-//	@SuppressWarnings("unchecked")
-//	@Test
-//	public void testInsertionComplex1() {
-//
-//		IBTree<Integer, String> btree = (IBTree<Integer, String>) TestRunner.getImplementationInstanceForInterface(IBTree.class, new Object[]{3});
-//
-//		try {
-//			List<Integer> inp = Arrays.asList(new Integer[]{1, 3, 7, 10, 11, 13, 14, 15, 18, 16, 19, 24, 25, 26, 21, 4, 5, 20, 22, 2, 17, 12, 6});
-//			for (int i : inp)
-//				btree.insert(i, "Soso" + i);
-//
-//			IBTreeNode<Integer, String> root = btree.getRoot();
-//			List<List<List<?>>> keys = new ArrayList<>();
-//			traverseBtreePreOrder(root, 0, keys);
-//			List<List<List<?>>> ans = new ArrayList<>();
-//			List<List<?>> lvl0 = new ArrayList<>();
-//			lvl0.add(new ArrayList<>(Arrays.asList(new Integer[]{16})));
-//			List<List<?>> lvl1 = new ArrayList<>();
-//			lvl1.add(new ArrayList<>(Arrays.asList(new Integer[]{3, 7, 13})));
-//			lvl1.add(new ArrayList<>(Arrays.asList(new Integer[]{20, 24})));
-//			List<List<?>> lvl2 = new ArrayList<>();
-//			lvl2.add(new ArrayList<>(Arrays.asList(new Integer[]{1, 2})));
-//			lvl2.add(new ArrayList<>(Arrays.asList(new Integer[]{4, 5, 6})));
-//			lvl2.add(new ArrayList<>(Arrays.asList(new Integer[]{10, 11, 12})));
-//			lvl2.add(new ArrayList<>(Arrays.asList(new Integer[]{14, 15})));
-//			lvl2.add(new ArrayList<>(Arrays.asList(new Integer[]{17, 18, 19})));
-//			lvl2.add(new ArrayList<>(Arrays.asList(new Integer[]{21, 22})));
-//			lvl2.add(new ArrayList<>(Arrays.asList(new Integer[]{25, 26})));
-//			ans.add(lvl0);
-//			ans.add(lvl1);
-//			ans.add(lvl2);
-//			for (int i = 0; i < keys.size(); i++) {
-//				for (int j = 0; j < keys.get(i).size(); j++) {
-//					Assert.assertEquals(ans.get(i).get(j), keys.get(i).get(j));
-//				}
-//			}
-//			if(!verifyBTree(root, 0, getHeight(root), 3, root))
-//				Assert.fail();
-//
-//		} catch (Throwable e) {
-//			TestRunner.fail("Fail to insert in tree", e);
-//		}
-//	}
-//
-//
-//	/**
-//	 * Test insertion complex case 2.
-//	 */
-//	@SuppressWarnings("unchecked")
-//	@Test
-//	public void testInsertionComplex2() {
-//
-//		IBTree<Integer, String> btree = (IBTree<Integer, String>) TestRunner.getImplementationInstanceForInterface(IBTree.class, new Object[]{3});
-//
-//		try {
-//			Random r = new Random();
-//			TreeSet<Integer> set = new TreeSet<>();
-//			for (int i = 0; i < 1000000; i++) {
-//				int key = r.nextInt(Integer.MAX_VALUE);
-//				btree.insert(key, "Soso" + key);
-//				set.add(key);
-//			}
-//			List<Integer> keys = new ArrayList<>();
-//			List<String> vals = new ArrayList<>();
-//			traverseTreeInorder(btree.getRoot(), keys, vals);
-//			if (keys.size() != set.size())
-//				Assert.fail();
-//
-//			int index = 0;
-//			System.out.println(set.size());
-//			for (Integer i : set) {
-//			//	System.out.println("Soso" + i);
-//				//System.out.println(vals.get(index));
-//				Assert.assertEquals(i, keys.get(index));
-//				Assert.assertEquals("Soso" + i, vals.get(index));
-//				index++;
-//				//System.out.println(index);
-//
-//
-//			}
-//			if(!verifyBTree(btree.getRoot(), 0, getHeight(btree.getRoot()), 3, btree.getRoot()))
-//				Assert.fail();
-//
-//		} catch (Throwable e) {
-//			TestRunner.fail("Fail to search in tree", e);
-//		}
-//	}
-//
-//
-//	/**
-//	 * Test insertion complex case 3.
-//	 */
-//	@SuppressWarnings("unchecked")
-//	@Test
-//	public void testInsertionComplex3() {
-//
-//		IBTree<Integer, String> btree = (IBTree<Integer, String>) TestRunner.getImplementationInstanceForInterface(IBTree.class, new Object[]{10});
-//
-//		try {
-//			Random r = new Random();
-//			TreeSet<Integer> set = new TreeSet<>();
-//			for (int i = 0; i < 1000000; i++) {
-//				int key = r.nextInt(Integer.MAX_VALUE);
-//				btree.insert(key, "Soso" + key);
-//				set.add(key);
-//			}
-//			List<Integer> keys = new ArrayList<>();
-//			List<String> vals = new ArrayList<>();
-//			traverseTreeInorder(btree.getRoot(), keys, vals);
-//			if (keys.size() != set.size())
-//				Assert.fail();
-//
-//			int index = 0;
-//			for (Integer i : set) {
-//				Assert.assertEquals(i, keys.get(index));
-//				Assert.assertEquals("Soso" + i, vals.get(index));
-//				index++;
-//			}
-//			if(!verifyBTree(btree.getRoot(), 0, getHeight(btree.getRoot()), 10, btree.getRoot()))
-//				Assert.fail();
-//		} catch (Throwable e) {
-//			TestRunner.fail("Fail to search in tree", e);
-//		}
-//	}
-//
-//	/**
-//	 * Test search with invalid parameters.
-//	 */
-//	@SuppressWarnings("unchecked")
-//	@Test
-//	public void testSearchInvalid() {
-//		IBTree<String, String> btree = (IBTree<String, String>) TestRunner.getImplementationInstanceForInterface(IBTree.class, new Object[]{3});
-//
-//		try {
-//			btree.search(null);
-//			Assert.fail();
-//		} catch (RuntimeErrorException ex) {
-//		} catch (Throwable e) {
-//			TestRunner.fail("Fail to search in tree", e);
-//		}
-//	}
-//
-//	/**
-//	 * Test search simple case.
-//	 */
-//	@SuppressWarnings("unchecked")
-//	@Test
-//	public void testSearchSimple() {
-//
-//		IBTree<Integer, String> btree = (IBTree<Integer, String>) TestRunner.getImplementationInstanceForInterface(IBTree.class, new Object[]{5});
-//
-//		try {
-//			Random r = new Random();
-//			List<Integer> rndNum = new ArrayList<>();
-//			for (int i = 0; i < 9; i++) {
-//				int rnd = r.nextInt(Integer.MAX_VALUE);
-//				btree.insert(rnd, "Lolo" + rnd);
-//				rndNum.add(rnd);
-//			}
-//
-//			for (int i = 0; i < rndNum.size(); i++) {
-//				int searchKey = rndNum.get(i);
-//				Assert.assertEquals("Lolo" + searchKey, btree.search(searchKey));
-//			}
-//		} catch (Throwable e) {
-//			TestRunner.fail("Fail to search in tree", e);
-//		}
-//	}
-//
-//	/**
-//	 * Test search simple case 2.
-//	 */
-//	@SuppressWarnings("unchecked")
-//	@Test
-//	public void testSearchSimple2() {
-//
-//		IBTree<Integer, String> btree = (IBTree<Integer, String>) TestRunner.getImplementationInstanceForInterface(IBTree.class, new Object[]{3});
-//
-//		try {
-//			List<Integer> inp = Arrays.asList(new Integer[]{1, 3, 7, 10, 11, 13, 14, 15, 18, 16, 19, 24, 25, 26, 21, 4, 5, 20, 22, 2, 17, 12, 6});
-//			for (int i : inp)
-//				btree.insert(i, "Soso" + i);
-//
-//			for (int i = 0; i < inp.size(); i++) {
-//				int searchKey = inp.get(i);
-//				Assert.assertEquals("Soso" + searchKey, btree.search(searchKey));
-//			}
-//
-//		} catch (Throwable e) {
-//			TestRunner.fail("Fail to search in tree", e);
-//		}
-//	}
-//
-//	/**
-//	 * Test search duplicate case.
-//	 */
-//	@SuppressWarnings("unchecked")
-//	@Test
-//	public void testSearchDuplicate() {
-//
-//		IBTree<Integer, String> btree = (IBTree<Integer, String>) TestRunner.getImplementationInstanceForInterface(IBTree.class, new Object[]{5});
-//
-//		try {
-//			btree.insert(3, "Soso2");
-//			Assert.assertEquals("Soso2", btree.search(3));
-//			for (int i = 0; i < 3; i++) {
-//				btree.insert(3, "Toto" + 2);
-//			}
-//			Assert.assertEquals("Soso2", btree.search(3));
-//
-//		} catch (Throwable e) {
-//			TestRunner.fail("Fail to search in tree", e);
-//		}
-//	}
-//
-//	/**
-//	 * Test search modify value.
-//	 */
-//	@SuppressWarnings("unchecked")
-//	@Test
-//	public void testSearchModifyValue() {
-//
-//		IBTree<Integer, List<String>> btree = (IBTree<Integer, List<String>>) TestRunner.getImplementationInstanceForInterface(IBTree.class, new Object[]{5});
-//
-//		try {
-//			List<String> val = new ArrayList<>();
-//			val.add("koko"); val.add("toto");
-//			btree.insert(3, val);
-//			List<String> ans = btree.search(3);
-//			Assert.assertEquals(val.size(), ans.size());
-//			for (int i = 0; i < ans.size(); i++)
-//				Assert.assertEquals(val.get(i), ans.get(i));
-//			val.add("Lolo");
-//			ans.add("Lolo");
-//			ans = btree.search(3);
-//			Assert.assertEquals(val.size(), ans.size());
-//			for (int i = 0; i < ans.size(); i++)
-//				Assert.assertEquals(val.get(i), ans.get(i));
-//		} catch (Throwable e) {
-//			TestRunner.fail("Fail to search in tree", e);
-//		}
-//	}
-//
-//	/**
-//	 * Test search not found.
-//	 */
-//	@SuppressWarnings("unchecked")
-//	@Test
-//	public void testSearchNotFound() {
-//
-//		IBTree<Integer, String> btree = (IBTree<Integer, String>) TestRunner.getImplementationInstanceForInterface(IBTree.class, new Object[]{3});
-//
-//		try {
-//			List<Integer> inp = Arrays.asList(new Integer[]{1, 3, 7, 10, 11, 13, 14, 15, 18, 16, 19, 24, 25, 26, 21, 4, 5, 20, 22, 2, 17, 12, 6});
-//			for (int i : inp)
-//				btree.insert(i, "Soso" + i);
-//
-//			Assert.assertNull(btree.search(23));
-//			Assert.assertNull(btree.search(0));
-//			Assert.assertNull(btree.search(400));
-//		} catch (Throwable e) {
-//			TestRunner.fail("Fail to search in tree", e);
-//		}
-//	}
-//
-//	/**
-//	 * Test deletion with invalid parameter.
-//	 */
-//	@SuppressWarnings("unchecked")
-//	@Test
-//	public void testDeletionInvalid() {
-//
-//		IBTree<String, String> btree = (IBTree<String, String>) TestRunner.getImplementationInstanceForInterface(IBTree.class, new Object[]{3});
-//
-//		try {
-//			btree.delete(null);
-//			Assert.fail();
-//		} catch (RuntimeErrorException ex) {
-//		} catch (Throwable e) {
-//			TestRunner.fail("Fail to delete int tree", e);
-//		}
-//	}
-//
-//	/**
-//	 * Test deletion simple case.
-//	 */
-//	@SuppressWarnings("unchecked")
-//	@Test
-//	public void testDeletionSimple() {
-//
-//		IBTree<Integer, String> btree = (IBTree<Integer, String>) TestRunner.getImplementationInstanceForInterface(IBTree.class, new Object[]{5});
-//
-//		try {
-//			Random r = new Random();
-//			List<Integer> rndNum = new ArrayList<>();
-//			for (int i = 0; i < 9; i++) {
-//				int rnd = r.nextInt(Integer.MAX_VALUE);
-//				btree.insert(rnd, "Toto" + rnd);
-//				rndNum.add(rnd);
-//			}
-//			IBTreeNode<Integer, String> root = btree.getRoot();
-//			Assert.assertTrue(root.isLeaf());
-//			Assert.assertEquals(9, root.getNumOfKeys());
-//			Collections.shuffle(rndNum);
-//
-//			for (int i = 0; i < rndNum.size(); i++) {
-//				Assert.assertTrue(btree.delete(rndNum.get(i)));
-//				Assert.assertTrue(verifyBTree(root, 0, getHeight(root), 5, root));
-//			}
-//
-//
-//		} catch (Throwable e) {
-//			TestRunner.fail("Fail to delete in tree", e);
-//		}
-//	}
-//
-//	/**
-//	 * Test deletion complex case 1.
-//	 */
-//	@SuppressWarnings("unchecked")
-//	@Test
-//	public void testDeletionComplex1() {
-//
-//		IBTree<Integer, String> btree = (IBTree<Integer, String>) TestRunner.getImplementationInstanceForInterface(IBTree.class, new Object[]{3});
-//
-//		try {
-//			List<Integer> inp = Arrays.asList(new Integer[]{1, 3, 7, 10, 11, 13, 14, 15, 18, 16, 19, 24, 25, 26, 21, 4, 5, 20, 22, 2, 17, 12, 6});
-//			for (int i : inp)
-//				btree.insert(i, "Soso" + i);
-//
-//			Collections.shuffle(inp);
-//			for (int i : inp) {
-//				Assert.assertTrue(btree.delete(i));
-//				if (btree.getRoot() != null)
-//					verifyBTree(btree.getRoot(), 0, getHeight(btree.getRoot()), 3, btree.getRoot());
-//			}
-//
-//		} catch (Throwable e) {
-//			TestRunner.fail("Fail to delete in tree", e);
-//		}
-//	}
-//
-//	/**
-//	 * Test deletion complex case 1.
-//	 */
-//	@SuppressWarnings("unchecked")
-//	@Test
-//	public void testDeletionComplex2() {
-//
-//		IBTree<Integer, String> btree = (IBTree<Integer, String>) TestRunner.getImplementationInstanceForInterface(IBTree.class, new Object[]{3});
-//
-//		try {
-//			List<Integer> inp = Arrays.asList(new Integer[]{1, 3, 7, 10, 11, 13, 14, 15, 18, 16, 19, 24, 25, 26, 21, 4, 5, 20, 22, 2, 17, 12, 6});
-//			for (int i : inp)
-//				btree.insert(i, "Soso" + i);
-//
-//			Assert.assertTrue(btree.delete(6));
-//			Assert.assertTrue(verifyBTree(btree.getRoot(), 0, getHeight(btree.getRoot()), 3, btree.getRoot()));
-//
-//			Assert.assertTrue(btree.delete(13));
-//			Assert.assertTrue(verifyBTree(btree.getRoot(), 0, getHeight(btree.getRoot()), 3, btree.getRoot()));
-//
-//			Assert.assertTrue(btree.delete(7));
-//			Assert.assertTrue(verifyBTree(btree.getRoot(), 0, getHeight(btree.getRoot()), 3, btree.getRoot()));
-//
-//			Assert.assertTrue(btree.delete(4));
-//			Assert.assertTrue(verifyBTree(btree.getRoot(), 0, getHeight(btree.getRoot()), 3, btree.getRoot()));
-//
-//			Assert.assertTrue(btree.delete(2));
-//			Assert.assertTrue(verifyBTree(btree.getRoot(), 0, getHeight(btree.getRoot()), 3, btree.getRoot()));
-//
-//			Assert.assertTrue(btree.delete(16));
-//			Assert.assertTrue(verifyBTree(btree.getRoot(), 0, getHeight(btree.getRoot()), 3, btree.getRoot()));
-//
-//		} catch (Throwable e) {
-//			TestRunner.fail("Fail to delete in tree", e);
-//		}
-//	}
-//
-//	/**
-//	 * Test deletion complex case 3.
-//	 */
-//	@SuppressWarnings("unchecked")
-//	@Test
-//	public void testDeletionComplex3() {
-//
-//		IBTree<Integer, String> btree = (IBTree<Integer, String>) TestRunner.getImplementationInstanceForInterface(IBTree.class, new Object[]{3});
-//
-//		try {
-//			Random r = new Random();
-//			TreeSet<Integer> set = new TreeSet<>();
-//			HashSet<Integer> deleteSet = new HashSet<>();
-//			for (int i = 0; i < 100000; i++) {
-//				int key = r.nextInt(Integer.MAX_VALUE);
-//				btree.insert(key, "Soso" + key);
-//				set.add(key);
-//				if (r.nextInt(5) % 4 == 0) deleteSet.add(key);
-//			}
-//
-//			List<Integer> keys = new ArrayList<>();
-//			List<String> vals = new ArrayList<>();
-//			traverseTreeInorder(btree.getRoot(), keys, vals);
-//			if (keys.size() != set.size())
-//				Assert.fail();
-//
-//			for (Integer i : deleteSet) {
-//				Assert.assertTrue(btree.delete(i));
-//				Assert.assertNull(btree.search(i));
-//			}
-//			/*if(!verifyBTree(btree.getRoot(), 0, getHeight(btree.getRoot()), 3, btree.getRoot()))
-//				Assert.fail();*/
-//		} catch (Throwable e) {
-//			TestRunner.fail("Fail to search in tree", e);
-//		}
-//	}
-//
-//	/**
-//	 * Test deletion not found.
-//	 */
-//	@SuppressWarnings("unchecked")
-//	@Test
-//	public void testDeletionNotFound() {
-//
-//		IBTree<Integer, String> btree = (IBTree<Integer, String>) TestRunner.getImplementationInstanceForInterface(IBTree.class, new Object[]{3});
-//
-//		try {
-//			List<Integer> inp = Arrays.asList(new Integer[]{1, 3, 7, 10, 11, 13, 14, 15, 18, 16, 19, 24, 25, 26, 21, 4, 5, 20, 22, 2, 17, 12, 6});
-//			for (int i : inp)
-//				btree.insert(i, "Soso" + i);
-//
-//			Assert.assertFalse(btree.delete(23));
-//			Assert.assertFalse(btree.delete(0));
-//			Assert.assertFalse(btree.delete(400));
-//		} catch (Throwable e) {
-//			TestRunner.fail("Fail to delete in tree", e);
-//		}
-//	}
+	public void testRootNull() {
+
+		IBTree<String, String> btree = (IBTree<String, String>) TestRunner.getImplementationInstanceForInterface(IBTree.class, new Object[]{3});
+		IBTreeNode<String, String> root = null;
+
+		try {
+			root = btree.getRoot();
+			if (debug)
+				System.out.println("TestRootNull: (case null)");
+			if (root != null)
+				Assert.fail();
+		} catch (RuntimeErrorException ex) {
+			if (debug)
+				System.out.println("TestRootNull: (case runtime exception)");
+		} catch (Throwable e) {
+			TestRunner.fail("Fail to getRoot of tree", e);
+		}
+	}
+
+	/**
+	 * Test get the root of the tree.
+	 */
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testGetRoot() {
+
+		IBTree<String, String> btree = (IBTree<String, String>) TestRunner.getImplementationInstanceForInterface(IBTree.class, new Object[]{3});
+		IBTreeNode<String, String> root = null;
+
+		try {
+			btree.insert("Soso", "Toto");
+			root = btree.getRoot();
+			Assert.assertEquals(1, root.getNumOfKeys());
+			Assert.assertEquals("Soso", root.getKeys().get(0));
+			Assert.assertEquals("Toto", root.getValues().get(0));
+		}catch (Throwable e) {
+			TestRunner.fail("Fail to getRoot of tree", e);
+		}
+	}
+
+	/**
+	 * Test get the root of the tree full case.
+	 */
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testGetRootFull() {
+
+		IBTree<String, String> btree = (IBTree<String, String>) TestRunner.getImplementationInstanceForInterface(IBTree.class, new Object[]{3});
+		IBTreeNode<String, String> root = null;
+
+		try {
+			btree.insert("Soso0", "Toto0");
+			btree.insert("Soso2", "Toto2");
+			btree.insert("Soso4", "Toto4");
+			btree.insert("Soso3", "Toto3");
+			btree.insert("Soso1", "Toto1");
+			root = btree.getRoot();
+			Assert.assertEquals(5, root.getNumOfKeys());
+			for (int i = 0; i < root.getNumOfKeys(); i++) {
+				Assert.assertEquals("Soso" + i, root.getKeys().get(i));
+				Assert.assertEquals("Toto" + i, root.getValues().get(i));
+			}
+			Assert.assertTrue(root.isLeaf());
+			if (root.getChildren() != null)
+				Assert.assertEquals(0, root.getChildren().size());
+		}catch (Throwable e) {
+			TestRunner.fail("Fail to getRoot of tree", e);
+		}
+	}
+
+	/**
+	 * Test get the root of the tree split case.
+	 */
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testGetRootSplitCase() {
+
+		IBTree<String, String> btree = (IBTree<String, String>) TestRunner.getImplementationInstanceForInterface(IBTree.class, new Object[]{3});
+		IBTreeNode<String, String> root = null;
+
+		try {
+			btree.insert("Soso0", "Toto0");
+			btree.insert("Soso2", "Toto2");
+			btree.insert("Soso4", "Toto4");
+			btree.insert("Soso5", "Toto5");
+			btree.insert("Soso3", "Toto3");
+			btree.insert("Soso1", "Toto1");
+			root = btree.getRoot();
+			Assert.assertEquals(1, root.getNumOfKeys());
+			Assert.assertEquals("Soso3", root.getKeys().get(0));
+			Assert.assertEquals("Toto3", root.getValues().get(0));
+
+			IBTreeNode<String, String> left = root.getChildren().get(0);
+			IBTreeNode<String, String> right = root.getChildren().get(1);
+
+			Assert.assertEquals(3, left.getNumOfKeys());
+			Assert.assertEquals(2, right.getNumOfKeys());
+
+			for (int i = 0; i < left.getNumOfKeys(); i++) {
+				Assert.assertEquals("Soso" + i, left.getKeys().get(i));
+				Assert.assertEquals("Toto" + i, left.getValues().get(i));
+			}
+
+			for (int i = 0; i < right.getNumOfKeys(); i++) {
+				Assert.assertEquals("Soso" + (i + 4), right.getKeys().get(i));
+				Assert.assertEquals("Toto" + (i + 4), right.getValues().get(i));
+			}
+
+			Assert.assertFalse(root.isLeaf());
+			Assert.assertTrue(left.isLeaf());
+			Assert.assertTrue(right.isLeaf());
+		}catch (Throwable e) {
+			TestRunner.fail("Fail to getRoot of tree", e);
+		}
+	}
+
+	/**
+	 * Test get the minimum degree of the tree invalid case.
+	 */
+	@Test
+	public void testGetMinimumDegreeInvalid() {
+
+		try {
+			TestRunner.getImplementationInstanceForInterface(IBTree.class, new Object[]{0});
+			Assert.fail();
+		} catch(RuntimeErrorException ex) {
+			try {
+				TestRunner.getImplementationInstanceForInterface(IBTree.class, new Object[]{1});
+				Assert.fail();
+			} catch(RuntimeErrorException ex1) {
+
+			}
+		}
+		catch (Throwable e) {
+			TestRunner.fail("Fail to getMinimumDegree", e);
+		}
+	}
+
+	/**
+	 * Test get the minimum degree of the tree.
+	 */
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testGetMinimumDegree() {
+
+		try {
+			for (int i = 2; i < 10; i++) {
+				IBTree<String, String> btree = (IBTree<String, String>) TestRunner.getImplementationInstanceForInterface(IBTree.class, new Object[]{i});
+				Assert.assertEquals(i, btree.getMinimumDegree());
+			}
+		}
+		catch (Throwable e) {
+			TestRunner.fail("Fail to getMinimumDegree", e);
+		}
+	}
+
+
+	/**
+	 * Test insertion with invalid parameter.
+	 */
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testInsertionInvalid() {
+
+		IBTree<String, String> btree = (IBTree<String, String>) TestRunner.getImplementationInstanceForInterface(IBTree.class, new Object[]{3});
+
+		try {
+			btree.insert(null, "Soso");
+			Assert.fail();
+		} catch (RuntimeErrorException ex) {
+			try {
+				btree.insert("Koko", null);
+				Assert.fail();
+			} catch (RuntimeErrorException ex1) {
+			}
+		} catch (Throwable e) {
+			TestRunner.fail("Fail to insert int tree", e);
+		}
+	}
+
+	/**
+	 * Test insertion simple case.
+	 */
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testInsertionSimple() {
+
+		IBTree<Integer, String> btree = (IBTree<Integer, String>) TestRunner.getImplementationInstanceForInterface(IBTree.class, new Object[]{5});
+
+		try {
+			Random r = new Random();
+			List<Integer> rndNum = new ArrayList<>();
+			for (int i = 0; i < 9; i++) {
+				int rnd = r.nextInt(Integer.MAX_VALUE);
+				btree.insert(rnd, "Toto" + rnd);
+				rndNum.add(rnd);
+			}
+			IBTreeNode<Integer, String> root = btree.getRoot();
+			Assert.assertTrue(root.isLeaf());
+			Assert.assertEquals(9, root.getNumOfKeys());
+			Collections.sort(rndNum);
+
+			for (int i = 0; i < root.getNumOfKeys(); i++) {
+				Assert.assertEquals(rndNum.get(i), root.getKeys().get(i));
+				Assert.assertEquals("Toto" + rndNum.get(i), root.getValues().get(i));
+			}
+
+			if(!verifyBTree(root, 0, getHeight(root), 5, root))
+				Assert.fail();
+
+		} catch (Throwable e) {
+			TestRunner.fail("Fail to insert in tree", e);
+		}
+	}
+
+	/**
+	 * Test insertion duplicate case.
+	 */
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testInsertionDuplicate() {
+
+		IBTree<Integer, String> btree = (IBTree<Integer, String>) TestRunner.getImplementationInstanceForInterface(IBTree.class, new Object[]{5});
+
+		try {
+			btree.insert(3, "Soso2");
+			for (int i = 0; i < 3; i++) {
+				btree.insert(3, "Toto" + 2);
+			}
+			IBTreeNode<Integer, String> root = btree.getRoot();
+			Assert.assertTrue(root.isLeaf());
+			Assert.assertEquals(1, root.getNumOfKeys());
+
+			Assert.assertEquals(3, root.getKeys().get(0).intValue());
+			Assert.assertEquals("Soso2", root.getValues().get(0));
+
+			if(!verifyBTree(root, 0, getHeight(root), 5, root))
+				Assert.fail();
+
+		} catch (Throwable e) {
+			TestRunner.fail("Fail to insert in tree", e);
+		}
+	}
+
+	/**
+	 * Test insertion complex case 1.
+	 */
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testInsertionComplex1() {
+
+		IBTree<Integer, String> btree = (IBTree<Integer, String>) TestRunner.getImplementationInstanceForInterface(IBTree.class, new Object[]{3});
+
+		try {
+			List<Integer> inp = Arrays.asList(new Integer[]{1, 3, 7, 10, 11, 13, 14, 15, 18, 16, 19, 24, 25, 26, 21, 4, 5, 20, 22, 2, 17, 12, 6});
+			for (int i : inp)
+				btree.insert(i, "Soso" + i);
+
+			IBTreeNode<Integer, String> root = btree.getRoot();
+			List<List<List<?>>> keys = new ArrayList<>();
+			traverseBtreePreOrder(root, 0, keys);
+			List<List<List<?>>> ans = new ArrayList<>();
+			List<List<?>> lvl0 = new ArrayList<>();
+			lvl0.add(new ArrayList<>(Arrays.asList(new Integer[]{16})));
+			List<List<?>> lvl1 = new ArrayList<>();
+			lvl1.add(new ArrayList<>(Arrays.asList(new Integer[]{3, 7, 13})));
+			lvl1.add(new ArrayList<>(Arrays.asList(new Integer[]{20, 24})));
+			List<List<?>> lvl2 = new ArrayList<>();
+			lvl2.add(new ArrayList<>(Arrays.asList(new Integer[]{1, 2})));
+			lvl2.add(new ArrayList<>(Arrays.asList(new Integer[]{4, 5, 6})));
+			lvl2.add(new ArrayList<>(Arrays.asList(new Integer[]{10, 11, 12})));
+			lvl2.add(new ArrayList<>(Arrays.asList(new Integer[]{14, 15})));
+			lvl2.add(new ArrayList<>(Arrays.asList(new Integer[]{17, 18, 19})));
+			lvl2.add(new ArrayList<>(Arrays.asList(new Integer[]{21, 22})));
+			lvl2.add(new ArrayList<>(Arrays.asList(new Integer[]{25, 26})));
+			ans.add(lvl0);
+			ans.add(lvl1);
+			ans.add(lvl2);
+			for (int i = 0; i < keys.size(); i++) {
+				for (int j = 0; j < keys.get(i).size(); j++) {
+					Assert.assertEquals(ans.get(i).get(j), keys.get(i).get(j));
+				}
+			}
+			if(!verifyBTree(root, 0, getHeight(root), 3, root))
+				Assert.fail();
+
+		} catch (Throwable e) {
+			TestRunner.fail("Fail to insert in tree", e);
+		}
+	}
+
+
+	/**
+	 * Test insertion complex case 2.
+	 */
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testInsertionComplex2() {
+
+		IBTree<Integer, String> btree = (IBTree<Integer, String>) TestRunner.getImplementationInstanceForInterface(IBTree.class, new Object[]{3});
+
+		try {
+			Random r = new Random();
+			TreeSet<Integer> set = new TreeSet<>();
+			for (int i = 0; i < 1000000; i++) {
+				int key = r.nextInt(Integer.MAX_VALUE);
+				btree.insert(key, "Soso" + key);
+				set.add(key);
+			}
+			List<Integer> keys = new ArrayList<>();
+			List<String> vals = new ArrayList<>();
+			traverseTreeInorder(btree.getRoot(), keys, vals);
+			if (keys.size() != set.size())
+				Assert.fail();
+
+			int index = 0;
+			for (Integer i : set) {
+				Assert.assertEquals(i, keys.get(index));
+				Assert.assertEquals("Soso" + i, vals.get(index));
+				index++;
+			}
+			if(!verifyBTree(btree.getRoot(), 0, getHeight(btree.getRoot()), 3, btree.getRoot()))
+				Assert.fail();
+
+		} catch (Throwable e) {
+			TestRunner.fail("Fail to search in tree", e);
+		}
+	}
+
+
+	/**
+	 * Test insertion complex case 3.
+	 */
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testInsertionComplex3() {
+
+		IBTree<Integer, String> btree = (IBTree<Integer, String>) TestRunner.getImplementationInstanceForInterface(IBTree.class, new Object[]{10});
+
+		try {
+			Random r = new Random();
+			TreeSet<Integer> set = new TreeSet<>();
+			for (int i = 0; i < 1000000; i++) {
+				int key = r.nextInt(Integer.MAX_VALUE);
+				btree.insert(key, "Soso" + key);
+				set.add(key);
+			}
+			List<Integer> keys = new ArrayList<>();
+			List<String> vals = new ArrayList<>();
+			traverseTreeInorder(btree.getRoot(), keys, vals);
+			if (keys.size() != set.size())
+				Assert.fail();
+
+			int index = 0;
+			for (Integer i : set) {
+				Assert.assertEquals(i, keys.get(index));
+				Assert.assertEquals("Soso" + i, vals.get(index));
+				index++;
+			}
+			if(!verifyBTree(btree.getRoot(), 0, getHeight(btree.getRoot()), 10, btree.getRoot()))
+				Assert.fail();
+		} catch (Throwable e) {
+			TestRunner.fail("Fail to search in tree", e);
+		}
+	}
+
+	/**
+	 * Test search with invalid parameters.
+	 */
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testSearchInvalid() {
+		IBTree<String, String> btree = (IBTree<String, String>) TestRunner.getImplementationInstanceForInterface(IBTree.class, new Object[]{3});
+
+		try {
+			btree.search(null);
+			Assert.fail();
+		} catch (RuntimeErrorException ex) {
+		} catch (Throwable e) {
+			TestRunner.fail("Fail to search in tree", e);
+		}
+	}
+
+	/**
+	 * Test search simple case.
+	 */
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testSearchSimple() {
+
+		IBTree<Integer, String> btree = (IBTree<Integer, String>) TestRunner.getImplementationInstanceForInterface(IBTree.class, new Object[]{5});
+
+		try {
+			Random r = new Random();
+			List<Integer> rndNum = new ArrayList<>();
+			for (int i = 0; i < 9; i++) {
+				int rnd = r.nextInt(Integer.MAX_VALUE);
+				btree.insert(rnd, "Lolo" + rnd);
+				rndNum.add(rnd);
+			}
+
+			for (int i = 0; i < rndNum.size(); i++) {
+				int searchKey = rndNum.get(i);
+				Assert.assertEquals("Lolo" + searchKey, btree.search(searchKey));
+			}
+		} catch (Throwable e) {
+			TestRunner.fail("Fail to search in tree", e);
+		}
+	}
+
+	/**
+	 * Test search simple case 2.
+	 */
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testSearchSimple2() {
+
+		IBTree<Integer, String> btree = (IBTree<Integer, String>) TestRunner.getImplementationInstanceForInterface(IBTree.class, new Object[]{3});
+
+		try {
+			List<Integer> inp = Arrays.asList(new Integer[]{1, 3, 7, 10, 11, 13, 14, 15, 18, 16, 19, 24, 25, 26, 21, 4, 5, 20, 22, 2, 17, 12, 6});
+			for (int i : inp)
+				btree.insert(i, "Soso" + i);
+
+			for (int i = 0; i < inp.size(); i++) {
+				int searchKey = inp.get(i);
+				Assert.assertEquals("Soso" + searchKey, btree.search(searchKey));
+			}
+
+		} catch (Throwable e) {
+			TestRunner.fail("Fail to search in tree", e);
+		}
+	}
+
+	/**
+	 * Test search duplicate case.
+	 */
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testSearchDuplicate() {
+
+		IBTree<Integer, String> btree = (IBTree<Integer, String>) TestRunner.getImplementationInstanceForInterface(IBTree.class, new Object[]{5});
+
+		try {
+			btree.insert(3, "Soso2");
+			Assert.assertEquals("Soso2", btree.search(3));
+			for (int i = 0; i < 3; i++) {
+				btree.insert(3, "Toto" + 2);
+			}
+			Assert.assertEquals("Soso2", btree.search(3));
+
+		} catch (Throwable e) {
+			TestRunner.fail("Fail to search in tree", e);
+		}
+	}
+
+	/**
+	 * Test search modify value.
+	 */
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testSearchModifyValue() {
+
+		IBTree<Integer, List<String>> btree = (IBTree<Integer, List<String>>) TestRunner.getImplementationInstanceForInterface(IBTree.class, new Object[]{5});
+
+		try {
+			List<String> val = new ArrayList<>();
+			val.add("koko"); val.add("toto");
+			btree.insert(3, val);
+			List<String> ans = btree.search(3);
+			Assert.assertEquals(val.size(), ans.size());
+			for (int i = 0; i < ans.size(); i++)
+				Assert.assertEquals(val.get(i), ans.get(i));
+			val.add("Lolo");
+			ans.add("Lolo");
+			ans = btree.search(3);
+			Assert.assertEquals(val.size(), ans.size());
+			for (int i = 0; i < ans.size(); i++)
+				Assert.assertEquals(val.get(i), ans.get(i));
+		} catch (Throwable e) {
+			TestRunner.fail("Fail to search in tree", e);
+		}
+	}
+
+	/**
+	 * Test search not found.
+	 */
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testSearchNotFound() {
+
+		IBTree<Integer, String> btree = (IBTree<Integer, String>) TestRunner.getImplementationInstanceForInterface(IBTree.class, new Object[]{3});
+
+		try {
+			List<Integer> inp = Arrays.asList(new Integer[]{1, 3, 7, 10, 11, 13, 14, 15, 18, 16, 19, 24, 25, 26, 21, 4, 5, 20, 22, 2, 17, 12, 6});
+			for (int i : inp)
+				btree.insert(i, "Soso" + i);
+
+			Assert.assertNull(btree.search(23));
+			Assert.assertNull(btree.search(0));
+			Assert.assertNull(btree.search(400));
+		} catch (Throwable e) {
+			TestRunner.fail("Fail to search in tree", e);
+		}
+	}
+
+	/**
+	 * Test deletion with invalid parameter.
+	 */
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testDeletionInvalid() {
+
+		IBTree<String, String> btree = (IBTree<String, String>) TestRunner.getImplementationInstanceForInterface(IBTree.class, new Object[]{3});
+
+		try {
+			btree.delete(null);
+			Assert.fail();
+		} catch (RuntimeErrorException ex) {
+		} catch (Throwable e) {
+			TestRunner.fail("Fail to delete int tree", e);
+		}
+	}
+
+	/**
+	 * Test deletion simple case.
+	 */
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testDeletionSimple() {
+
+		IBTree<Integer, String> btree = (IBTree<Integer, String>) TestRunner.getImplementationInstanceForInterface(IBTree.class, new Object[]{5});
+
+		try {
+			Random r = new Random();
+			List<Integer> rndNum = new ArrayList<>();
+			for (int i = 0; i < 9; i++) {
+				int rnd = r.nextInt(Integer.MAX_VALUE);
+				btree.insert(rnd, "Toto" + rnd);
+				rndNum.add(rnd);
+			}
+			IBTreeNode<Integer, String> root = btree.getRoot();
+			Assert.assertTrue(root.isLeaf());
+			Assert.assertEquals(9, root.getNumOfKeys());
+			Collections.shuffle(rndNum);
+
+			for (int i = 0; i < rndNum.size(); i++) {
+				Assert.assertTrue(btree.delete(rndNum.get(i)));
+				Assert.assertTrue(verifyBTree(root, 0, getHeight(root), 5, root));
+			}
+
+
+		} catch (Throwable e) {
+			TestRunner.fail("Fail to delete in tree", e);
+		}
+	}
+
+	/**
+	 * Test deletion complex case 1.
+	 */
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testDeletionComplex1() {
+
+		IBTree<Integer, String> btree = (IBTree<Integer, String>) TestRunner.getImplementationInstanceForInterface(IBTree.class, new Object[]{3});
+
+		try {
+			List<Integer> inp = Arrays.asList(new Integer[]{1, 3, 7, 10, 11, 13, 14, 15, 18, 16, 19, 24, 25, 26, 21, 4, 5, 20, 22, 2, 17, 12, 6});
+			for (int i : inp)
+				btree.insert(i, "Soso" + i);
+
+			Collections.shuffle(inp);
+			for (int i : inp) {
+				Assert.assertTrue(btree.delete(i));
+				if (btree.getRoot() != null)
+					verifyBTree(btree.getRoot(), 0, getHeight(btree.getRoot()), 3, btree.getRoot());
+			}
+
+		} catch (Throwable e) {
+			TestRunner.fail("Fail to delete in tree", e);
+		}
+	}
+
+	/**
+	 * Test deletion complex case 1.
+	 */
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testDeletionComplex2() {
+
+		IBTree<Integer, String> btree = (IBTree<Integer, String>) TestRunner.getImplementationInstanceForInterface(IBTree.class, new Object[]{3});
+
+		try {
+			List<Integer> inp = Arrays.asList(new Integer[]{1, 3, 7, 10, 11, 13, 14, 15, 18, 16, 19, 24, 25, 26, 21, 4, 5, 20, 22, 2, 17, 12, 6});
+			for (int i : inp)
+				btree.insert(i, "Soso" + i);
+
+			Assert.assertTrue(btree.delete(6));
+			Assert.assertTrue(verifyBTree(btree.getRoot(), 0, getHeight(btree.getRoot()), 3, btree.getRoot()));
+
+			Assert.assertTrue(btree.delete(13));
+			Assert.assertTrue(verifyBTree(btree.getRoot(), 0, getHeight(btree.getRoot()), 3, btree.getRoot()));
+
+			Assert.assertTrue(btree.delete(7));
+			Assert.assertTrue(verifyBTree(btree.getRoot(), 0, getHeight(btree.getRoot()), 3, btree.getRoot()));
+
+			Assert.assertTrue(btree.delete(4));
+			Assert.assertTrue(verifyBTree(btree.getRoot(), 0, getHeight(btree.getRoot()), 3, btree.getRoot()));
+
+			Assert.assertTrue(btree.delete(2));
+			Assert.assertTrue(verifyBTree(btree.getRoot(), 0, getHeight(btree.getRoot()), 3, btree.getRoot()));
+
+			Assert.assertTrue(btree.delete(16));
+			Assert.assertTrue(verifyBTree(btree.getRoot(), 0, getHeight(btree.getRoot()), 3, btree.getRoot()));
+
+		} catch (Throwable e) {
+			TestRunner.fail("Fail to delete in tree", e);
+		}
+	}
+
+	/**
+	 * Test deletion complex case 3.
+	 */
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testDeletionComplex3() {
+
+		IBTree<Integer, String> btree = (IBTree<Integer, String>) TestRunner.getImplementationInstanceForInterface(IBTree.class, new Object[]{3});
+
+		try {
+			Random r = new Random();
+			TreeSet<Integer> set = new TreeSet<>();
+			HashSet<Integer> deleteSet = new HashSet<>();
+			for (int i = 0; i < 100000; i++) {
+				int key = r.nextInt(Integer.MAX_VALUE);
+				btree.insert(key, "Soso" + key);
+				set.add(key);
+				if (r.nextInt(5) % 4 == 0) deleteSet.add(key);
+			}
+			List<Integer> keys = new ArrayList<>();
+			List<String> vals = new ArrayList<>();
+			traverseTreeInorder(btree.getRoot(), keys, vals);
+			if (keys.size() != set.size())
+				Assert.fail();
+
+			for (Integer i : deleteSet) {
+				Assert.assertTrue(btree.delete(i));
+				Assert.assertNull(btree.search(i));
+			}
+			if(!verifyBTree(btree.getRoot(), 0, getHeight(btree.getRoot()), 3, btree.getRoot()))
+				Assert.fail();
+
+		} catch (Throwable e) {
+			TestRunner.fail("Fail to search in tree", e);
+		}
+	}
+
+	/**
+	 * Test deletion not found.
+	 */
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testDeletionNotFound() {
+
+		IBTree<Integer, String> btree = (IBTree<Integer, String>) TestRunner.getImplementationInstanceForInterface(IBTree.class, new Object[]{3});
+
+		try {
+			List<Integer> inp = Arrays.asList(new Integer[]{1, 3, 7, 10, 11, 13, 14, 15, 18, 16, 19, 24, 25, 26, 21, 4, 5, 20, 22, 2, 17, 12, 6});
+			for (int i : inp)
+				btree.insert(i, "Soso" + i);
+
+			Assert.assertFalse(btree.delete(23));
+			Assert.assertFalse(btree.delete(0));
+			Assert.assertFalse(btree.delete(400));
+		} catch (Throwable e) {
+			TestRunner.fail("Fail to delete in tree", e);
+		}
+	}
+
 
 	/**
 	 * Test index web page with null or empty parameter or not found file.
 	 */
-
+	@Test
 	public void testindexWebPageNullorEmptyorNotFoundParamter() {
 
 		ISearchEngine searchEngine = (ISearchEngine) TestRunner.getImplementationInstanceForInterface(ISearchEngine.class, new Object[]{100});
@@ -762,18 +757,14 @@ public class UnitTest {
 		 * According to each change you should modify the expected variable to have the expected outcome.
 		 */
 		try {
+			//test word that exists in tree
 			searchEngine.indexWebPage("res\\wiki_00");
-			List<ISearchResult> expected = Arrays.asList(new SearchResult[]{new SearchResult("7697605", 3), new SearchResult("7697611", 1)});
-			List<ISearchResult> actual = searchEngine.searchByWordWithRanking("Konica");
+			List<ISearchResult> expected = Arrays.asList(new SearchResult[]{new SearchResult("7698422", 1), new SearchResult("7699979", 1)
+			,new SearchResult("7700417",1)});
+			List<ISearchResult> actual = searchEngine.searchByWordWithRanking("hence");
 			for (ISearchResult searchRes : actual) {
 				System.out.println(searchRes.toString());
 			}
-			Collections.sort(expected, new Comparator<ISearchResult>() {
-				@Override
-				public int compare(ISearchResult o1, ISearchResult o2) {
-					return o1.getRank() - o2.getRank();
-				}
-			});
 			Collections.sort(actual, new Comparator<ISearchResult>() {
 				@Override
 				public int compare(ISearchResult o1, ISearchResult o2) {
@@ -785,6 +776,7 @@ public class UnitTest {
 				Assert.assertEquals(expected.get(i).getId(), actual.get(i).getId());
 				Assert.assertEquals(expected.get(i).getRank(), actual.get(i).getRank());
 			}
+
 		} catch (Throwable e) {
 			TestRunner.fail("Fail to index web page", e);
 		}
@@ -836,17 +828,11 @@ public class UnitTest {
 		 */
 		try {
 			searchEngine.indexDirectory("res");
-			List<ISearchResult> expected = Arrays.asList(new SearchResult[]{new SearchResult("7697605", 3), new SearchResult("7697611", 1)});
-			List<ISearchResult> actual = searchEngine.searchByWordWithRanking("Konica");
+			List<ISearchResult> expected = Arrays.asList(new SearchResult[]{new SearchResult("7734381", 1)});
+			List<ISearchResult> actual = searchEngine.searchByWordWithRanking("HereWeUnite");
 			for (ISearchResult searchRes : actual) {
 				System.out.println(searchRes.toString());
 			}
-			Collections.sort(expected, new Comparator<ISearchResult>() {
-				@Override
-				public int compare(ISearchResult o1, ISearchResult o2) {
-					return o1.getRank() - o2.getRank();
-				}
-			});
 			Collections.sort(actual, new Comparator<ISearchResult>() {
 				@Override
 				public int compare(ISearchResult o1, ISearchResult o2) {
@@ -882,17 +868,12 @@ public class UnitTest {
 		 */
 		try {
 			searchEngine.indexDirectory("res");
-			List<ISearchResult> expected = Arrays.asList(new SearchResult[]{new SearchResult("7697605", 3), new SearchResult("7697611", 1)});
-			List<ISearchResult> actual = searchEngine.searchByWordWithRanking("Konica");
+			List<ISearchResult> expected = Arrays.asList(new SearchResult[]{new SearchResult("7708463", 2),
+					new SearchResult("7728040", 3),(new SearchResult("7719059",7))});
+			List<ISearchResult> actual = searchEngine.searchByWordWithRanking("lucifer");
 			for (ISearchResult searchRes : actual) {
 				System.out.println(searchRes.toString());
 			}
-			Collections.sort(expected, new Comparator<ISearchResult>() {
-				@Override
-				public int compare(ISearchResult o1, ISearchResult o2) {
-					return o1.getRank() - o2.getRank();
-				}
-			});
 			Collections.sort(actual, new Comparator<ISearchResult>() {
 				@Override
 				public int compare(ISearchResult o1, ISearchResult o2) {
@@ -955,17 +936,11 @@ public class UnitTest {
 		try {
 			searchEngine.indexDirectory("res");
 			searchEngine.deleteWebPage("res\\wiki_00");
-			List<ISearchResult> expected = Arrays.asList(new SearchResult[]{new SearchResult("7697605", 3), new SearchResult("7697611", 1)});
-			List<ISearchResult> actual = searchEngine.searchByWordWithRanking("Konica");
+			List<ISearchResult> expected = Arrays.asList(new SearchResult[]{});
+			List<ISearchResult> actual = searchEngine.searchByWordWithRanking("engineRPM");
 			for (ISearchResult searchRes : actual) {
 				System.out.println(searchRes.toString());
 			}
-			Collections.sort(expected, new Comparator<ISearchResult>() {
-				@Override
-				public int compare(ISearchResult o1, ISearchResult o2) {
-					return o1.getRank() - o2.getRank();
-				}
-			});
 			Collections.sort(actual, new Comparator<ISearchResult>() {
 				@Override
 				public int compare(ISearchResult o1, ISearchResult o2) {
@@ -1001,7 +976,7 @@ public class UnitTest {
 			searchEngine.indexWebPage("res\\wiki_00");
 			searchEngine.indexWebPage("res\\subfolder\\wiki_02");
 			searchEngine.deleteWebPage("res\\wiki_01");
-			List<ISearchResult> expected = Arrays.asList(new SearchResult[]{new SearchResult("7697611", 1)});
+			List<ISearchResult> expected = Arrays.asList(new SearchResult[]{});
 			List<ISearchResult> actual = searchEngine.searchByWordWithRanking("testDeleteWebPageUnIndexedWebPage");
 			for (ISearchResult searchRes : actual) {
 				System.out.println(searchRes.toString());
@@ -1032,9 +1007,9 @@ public class UnitTest {
 		try {
 			searchEngine.indexWebPage("res\\wiki_00");
 			searchEngine.indexWebPage("res\\wiki_01");
-			searchEngine.indexWebPage("res\\wiki_02");
+			searchEngine.indexWebPage("res\\subfolder\\wiki_02");
 			searchEngine.deleteWebPage("res\\wiki_01");
-			searchEngine.deleteWebPage("res\\wiki_02");
+			searchEngine.deleteWebPage("res\\subfolder\\wiki_02");
 			searchEngine.deleteWebPage("res\\wiki_00");
 
 			List<ISearchResult> actual = searchEngine.searchByWordWithRanking("ThE");
@@ -1105,8 +1080,9 @@ public class UnitTest {
 		 */
 		try {
 			searchEngine.indexDirectory("res");
-			List<ISearchResult> expected = Arrays.asList(new SearchResult[]{new SearchResult("7702780", 1), new SearchResult("7697611", 3)});
-			List<ISearchResult> actual = searchEngine.searchByMultipleWordWithRanking(" word1d word2d     word3d 	");
+			List<ISearchResult> expected = Arrays.asList(new SearchResult[]{new SearchResult("7708256", 1),
+					new SearchResult("7741075", 1),new SearchResult("7699683",1)});
+			List<ISearchResult> actual = searchEngine.searchByMultipleWordWithRanking("HeReAfTer EgyBest zakir");
 			for (ISearchResult searchRes : actual) {
 				System.out.println(searchRes.toString());
 			}

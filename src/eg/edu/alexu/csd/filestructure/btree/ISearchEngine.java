@@ -35,7 +35,7 @@ public interface ISearchEngine {
 	 * Given a search query of one word, you are required to return a list 
 	 * of SearchResult object that contains the documents IDs that contains 
 	 * this search word, along with its rank. The rank of a Wikipedia document 
-	 * is the frequency of the given search word in this document. 
+		 * is the frequency of the given search word in this document.
 	 * Please note that the search words are not case sensitive.
 	 * @param word
 	 * @return
